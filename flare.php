@@ -6,7 +6,7 @@ function generateRandomString($length = 5) {
 
 
 
-//made by @Psychadelix (Bas Kruithof)
+//made by @Psychadelix 
 
 //$db = new mysqli("localhost", "root", "", "api-logs");
 
