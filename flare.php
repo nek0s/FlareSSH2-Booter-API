@@ -3,6 +3,8 @@
 //made by @Psychadelix
 //discord Psychadelix#8740
 
+
+//mysql will be interigated soon.
 //$db = new mysqli("localhost", "root", "", "api-logs");
 
 //if (mysqli_connect_errno()) {
